@@ -1,33 +1,57 @@
-"use strict"
+"use strict";
 
-const statesList = document.getElementById("footBallTeam");
+const submitBtn = document.getElementById("submitBtn");
+let selectedValueElement = document.getElementById("footballTeamsList");
+let answerPara = document.getElementById("answer");
+let teams = [
+    { code: "DAL", name: "Dallas Cowboys", plays: "Arlington, TX" },
+    { code: "DEN", name: "Denver Broncos", plays: "Denver, CO" },
+    { code: "HOU", name: "Houston Texans", plays: "Houston, TX" },
+    { code: "ATL", name: "Atlanta Falcons", plays: "Atlanta, GA" },
+    { code: "KAN", name: "Kansas City Chiefs", plays: "Kansas City, MO" },
+];
+
 
 window.onload = function () {
-    // load the dropdown list
-  initStatedropDown();
+    submitBtn.onclick = onSubmitBtnClicked;
+    initFootBallTeams();
+}
 
-};
+function initFootBallTeams(){
+    //what not to do
+    // let codes = ["DAL","DEN","HOU","ATL","KAN"];
+    // let teamNames =["Dallas Cowboys","Denver Broncos","Houston Texans","Atlanta Falcons","Kansas City Chiefs"];
 
 
-function initStatedropDown(){
-    let teams = [
-        {code:"DAL", name:"Dallas Cowboys", plays:"Arlington, TX"},
-        {code:"DEN", name:"Denver Broncos", plays:"Denver, CO"},
-        {code:"HOU", name:"Houston Texans", plays:"Houston, TX"},
-        {code:"KAN", name:"Kansas City Chiefs",
-        plays:"Kansas City, MO"},
-       ];
-    let length = states.length;
-    for (let i = 0; i < length; i++) {
-        // create the option element
-        let theOption = document.createElement("option");
-        // set the text and value of the option you created
-        theOption.textContent = states[i];
-        theOption.value = abbrev[i];
-        // append the option as a child of (inside) the
-        // select element
-        teams.appendChild(theOption);
+    //teams is global so utilize that
+    let length = teams.length;
+
+    for(let i = 0; i <length; i++){
+        let team = teams[i];
+        let theOptions = document.createElement("option");
+
+        //team.name & team.code uses the global team array
+        theOptions.textContent = team.name;
+        theOptions.value = team.code;
+        //Creates the options for the drop down
+        footballTeamsList.appendChild(theOptions)
     }
-    // other stuff
+}
 
+function onSubmitBtnClicked() {
+    let selectedValue = selectedValueElement.value;
+
+    console.log("clicked")
+    if (selectedValue == -1) {
+        answerPara.innerHTML = "No team selected.";
+        return;
+    } else {
+        for (let i = 0; i < teams.length; i++) {
+            if (selectedValue == teams[i].code) {
+                answerPara.innerHTML = `You selected ${teams[i].name}, who play for ${teams[i].plays}.`;
+                break;
+            }
+
+        }
+    }
 }
